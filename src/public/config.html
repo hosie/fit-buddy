@@ -1,4 +1,3 @@
-
 <!DOCTYPE html> 
 <html ng-app="FitBuddyApp">
 <!--
@@ -65,21 +64,16 @@ furnished to do so, subject to the following conditions:
   </div><!-- /.container -->
   <div class="row">
     <div class="col-md-3" ng-repeat="exercise in exercises | filter:searchString">
-      <h2 ng-click="doingIt = true">{{exercise.name}}</h2>
-      <span ng-hide="doingIt" >{{exercise.currentTarget}}</span>
-      <form ng-show="doingIt" >
-        <button class="btn btn-lg btn-success" ng-click="doingIt = false;changingIt = true;">Smashed it</button><br>
-        <button class="btn btn-lg btn-info" ng-click="doingIt = false">Just made it</button><br>
-        <button class="btn btn-lg btn-warning" ng-click="doingIt = false;changingIt = true;">Failed</button><br>
-        <br/>
-        
-      </form>          
-      <form ng-show="changingIt" ng-submit="changingIt=false;update(exercise);">
-        <h3>enter new target</h3>
+      <h2 ng-click="editing = true">{{exercise.name}}</h2>
+      <span ng-hide="editing" >{{exercise.currentTarget}}</span>
+      <form ng-show="editing" ng-submit="editing = false;update(exercise)" >
+        <label>Name:</label>
+        <input type="text" ng-model="exercise.name" placeholder="Name" ng-required/>
+        <label>Current Target:</label>
         <input type="text" ng-model="exercise.currentTarget" placeholder="CurrentTarget" ng-required/>
         <br/>
         <button class="btn" type="submit" >Save</button>
-      </form>
+      </form>          
     </div>
   </div>  
 </div> <!-- /container -->
