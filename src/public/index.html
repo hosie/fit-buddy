@@ -65,15 +65,19 @@ furnished to do so, subject to the following conditions:
   </div><!-- /.container -->
   <div class="row">
     <div class="col-md-3" ng-repeat="exercise in exercises | filter:searchString">
-      <h2 ng-click="doingIt = true">{{exercise.name}}</h2>
+      <!-- <h2 ng-click="doingIt = true">{{exercise.name}}</h2>-->
+      <a href="#recordPerformance.html"><h2 ng-click="doingIt = true">{{exercise.name}}</h2></a>
       <span ng-hide="doingIt" >{{exercise.currentTarget}}</span>
-      <form ng-show="doingIt" >
+      <!--<form ng-show="doingIt" >
         <button class="btn btn-lg btn-success" ng-click="doingIt = false;changingIt = true;">Smashed it</button><br>
         <button class="btn btn-lg btn-info" ng-click="doingIt = false">Just made it</button><br>
         <button class="btn btn-lg btn-warning" ng-click="doingIt = false;changingIt = true;">Failed</button><br>
         <br/>
         
-      </form>          
+      </form>          -->
+      <div ng-view>
+      
+      </div>
       <form ng-show="changingIt" ng-submit="changingIt=false;update(exercise);">
         <h3>enter new target</h3>
         <input type="text" ng-model="exercise.currentTarget" placeholder="CurrentTarget" ng-required/>
