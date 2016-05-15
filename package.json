@@ -6,7 +6,8 @@
     "start": "node ./bin/www",
     "style": "jscs --verbose .",
     "lint": "jshint . ",
-    "e2e": "cucumber-js"
+    "e2e": "cucumber-js",
+    "test": "mocha \"test/**/*-test.js\""
   },
   "dependencies": {
     "body-parser": "~1.8.1",
@@ -22,6 +23,7 @@
     "cucumber": "^0.10.2",
     "jscs": "2.11.0",
     "jshint": "2.9.1",
-    "mocha": "^2.1.0"
+    "mocha": "^2.1.0",
+    "nock": "^8.0.0"
   }
 }
