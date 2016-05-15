@@ -1,0 +1,7 @@
+root = true
+
+# This is officially a 4-space indentation project.
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
