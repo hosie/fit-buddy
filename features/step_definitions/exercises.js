@@ -2,7 +2,7 @@ var q = require('Q');
 var db = require('../../persistence/db.js');
 module.exports = function () {
 
-    this.World = function(){
+    this.World = function() {
         db.init(
             {
                 cdbUrl: process.env.CDB_URL,
@@ -10,13 +10,12 @@ module.exports = function () {
                 cdbPass: process.env.CDB_PASS
             }
         );
-
     };
 
     this.Given(/^The following exercises exist$/, function (exerciseList) {
         var exercises = exerciseList.hashes();
         var promises=[];
-        exercises.forEach(function(exercise){
+        exercises.forEach(function(exercise) {
             promises.push(db.addExercise(exercise.name));
         });
         return q.all(promises);

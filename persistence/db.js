@@ -2,10 +2,10 @@ var q = require('Q');
 var cdbUrl;
 var request = require('request-promise');
 
-function addExercise(name){
+function addExercise(name) {
 
     var requestBody = {
-        name:name
+        name: name
     };
 
     var options = {
@@ -13,8 +13,8 @@ function addExercise(name){
         json: true,
         body: requestBody,
         auth: {
-            user:cdbUser,
-            pass:cdbPass,
+            user: cdbUser,
+            pass: cdbPass,
             sendImmediately: true
         }
     };
@@ -22,7 +22,7 @@ function addExercise(name){
     return request.post(options);
 }
 
-function init(env){
+function init(env) {
     cdbUrl  = env.cdbUrl;
     cdbUser = env.cdbUser;
     cdbPass = env.cdbPass;

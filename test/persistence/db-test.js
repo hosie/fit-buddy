@@ -1,11 +1,11 @@
 var nock = require('nock');
-describe("persistence/db",function(){
+describe("persistence/db",function() {
     var db = require("../../persistence/db.js");
     var spoofCloudantUrl = "https://spoofcloundant.com:443";
     var testCdbUser = "testUser";
     var testCdbPass = "testPass";
 
-    before(function(){
+    before(function() {
         db.init(
             {
                 cdbUrl: spoofCloudantUrl,
@@ -15,13 +15,13 @@ describe("persistence/db",function(){
         );
     });
 
-    describe("addExercise",function(){
-        it("does not barf",function(done){
+    describe("addExercise",function() {
+        it("does not barf",function(done) {
             var cloudantInsert =
                 nock(
                     spoofCloudantUrl,
                     {
-                        reqheaders:{
+                        reqheaders: {
                             'Content-Type': 'application/json'
                         }
 
@@ -40,7 +40,7 @@ describe("persistence/db",function(){
                 .reply(200);
 
             db.addExercise("test exercise")
-                .then(function(){
+                .then(function() {
                     cloudantInsert.done();
                     done();
                 })
