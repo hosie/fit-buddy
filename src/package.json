@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "style": "jscs --verbose ."
-
+    "style": "jscs --verbose .",
+    "lint": "jshint . "
   },
   "dependencies": {
     "body-parser": "~1.8.1",
@@ -19,6 +19,8 @@
   },
   "devDependencies": {
     "mocha": "^2.1.0",
-    "jscs": "2.11.0"
+    "jscs": "2.11.0",
+    "jshint": "2.9.1"
+
   }
 }
