@@ -20,11 +20,6 @@ module.exports = function () {
 
     };
 
-    this.Before = function(){{
-        console.log("BEFORE BEFORE BEFORE");
-        return db.clearAllExercises();
-    }};
-
     this.Given(/^The following exercises exist$/, function (exerciseList) {
         return db.clearAllExercises()
             .then(function() {
