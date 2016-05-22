@@ -5,14 +5,55 @@ describe("persistence/db",function() {
     var testCdbUser = "testUser";
     var testCdbPass = "testPass";
 
-    before(function() {
+    beforeEach(function() {
         db.init(
             {
-                cdbUrl: spoofCloudantUrl,
-                cdbUser:   testCdbUser,
-                cdbPass:   testCdbPass
+                cdbUrl:  spoofCloudantUrl,
+                cdbUser: testCdbUser,
+                cdbPass: testCdbPass
             }
         );
+    });
+
+    describe("clearAllExercises",function() {
+        it("drops and recreates the database",function(done) {
+
+            var cloudantDeleteDatabase =
+                nock(spoofCloudantUrl)
+                    .delete("/exercises")
+                    .basicAuth({
+                        user: testCdbUser,
+                        pass: testCdbPass
+                    })
+                    .reply(200);
+
+            var cloudantCreateDatabase =
+                nock(spoofCloudantUrl)
+                    .put("/exercises")
+                    .basicAuth({
+                        user: testCdbUser,
+                        pass: testCdbPass
+                    })
+                    .reply(201);
+
+            db.clearAllExercises()
+                .then(function() {
+                    cloudantDeleteDatabase.done();
+                    cloudantCreateDatabase.done();
+                    done();
+                })
+                .catch(function(error) {
+                    console.error('pending mocks: %j', cloudantDeleteDatabase.pendingMocks());
+                    console.error('pending mocks: %j', cloudantCreateDatabase.pendingMocks());
+                    done(error);
+                });
+        });
+
+        it.skip("handles case where database does not exist");
+        it.skip("if drop fails, does not attempt to create");
+        it.skip("does the drop and create in correct order");
+
+
     });
 
     describe("addExercise",function() {

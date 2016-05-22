@@ -28,7 +28,23 @@ function init(env) {
     cdbPass = env.cdbPass;
 }
 
+function clearAllExercises() {
+    var options = {
+        url: cdbUrl+"/exercises",
+        auth: {
+            user: cdbUser,
+            pass: cdbPass,
+            sendImmediately: true
+        }
+    };
+    return request.delete(options)
+        .then(function() {
+            return request.put(options);
+        });
+}
+
 module.exports = {
+    clearAllExercises: clearAllExercises,
     addExercise: addExercise,
     init: init
 };

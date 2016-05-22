@@ -6,8 +6,10 @@ Feature: Exercise Tracking
         | name              |
         | bench press       |
         | shoulder press    |
+        And I navigate to exercises page
         When I search for <searchString>
         Then the filtered list is <filtered>
+
         Examples:
         | searchString  | filtered                       |
         | bench press   | bench press                    |
