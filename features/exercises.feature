@@ -3,14 +3,27 @@ Feature: Exercise Tracking
 
     Scenario Outline: Searching for an exercise
         Given The following exercises exist
-        | name              |
-        | bench press       |
-        | shoulder press    |
+            | name              |
+            | bench press       |
+            | shoulder press    |
         And I navigate to exercises page
         When I search for <searchString>
         Then the filtered list is <filtered>
 
         Examples:
-        | searchString  | filtered                       |
-        | bench press   | bench press                    |
-        | press         | bench press,shoulder press     |
+            | searchString  | filtered                       |
+            | bench press   | bench press                    |
+            | press         | bench press,shoulder press     |
+
+    Scenario: Smashing it
+        Given The following exercises exist
+            | name              |
+            | bench press       |
+        And I navigate to exercises page
+        And I click on exercise bench press
+        And I click on finish button Smashed it
+        When I enter a new target of 3*8@60kg
+        Then Current target for bench press is 3*8@60kg
+        #And  Current target for bench press is 3*8@60kg after page reload
+
+

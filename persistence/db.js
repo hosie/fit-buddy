@@ -35,11 +35,22 @@ function clearAllExercises() {
             user: cdbUser,
             pass: cdbPass,
             sendImmediately: true
-        }
+        },
+        json: true
     };
     return request.delete(options)
         .then(function() {
             return request.put(options);
+        })
+        .catch(function(error) {
+            console.log(error.message);
+            console.dir(error);
+            if(error.error.reason==='Database does not exist.') {
+                //ignore this error and create the db anyway
+                return request.put(options);
+            }else {
+                return error;
+            }
         });
 }
 
