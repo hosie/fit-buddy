@@ -2,38 +2,39 @@ var q = require('Q');
 var cdbUrl;
 var request = require('request-promise');
 
-function addExercise(name) {
+
+function Client(env) {
+    this.cdbUrl  = env.cdbUrl;
+    this.cdbUser = env.cdbUser;
+    this.cdbPass = env.cdbPass;
+}
+
+Client.prototype.addExercise = function (name) {
 
     var requestBody = {
         name: name
     };
 
     var options = {
-        url: cdbUrl+"/exercises",
+        url: this.cdbUrl+"/exercises",
         json: true,
         body: requestBody,
         auth: {
-            user: cdbUser,
-            pass: cdbPass,
+            user: this.cdbUser,
+            pass: this.cdbPass,
             sendImmediately: true
         }
     };
 
     return request.post(options);
-}
+};
 
-function init(env) {
-    cdbUrl  = env.cdbUrl;
-    cdbUser = env.cdbUser;
-    cdbPass = env.cdbPass;
-}
-
-function clearAllExercises() {
+Client.prototype.clearAllExercises = function () {
     var options = {
-        url: cdbUrl+"/exercises",
+        url: this.cdbUrl+"/exercises",
         auth: {
-            user: cdbUser,
-            pass: cdbPass,
+            user: this.cdbUser,
+            pass: this.cdbPass,
             sendImmediately: true
         },
         json: true
@@ -52,10 +53,10 @@ function clearAllExercises() {
                 return error;
             }
         });
-}
+};
 
 module.exports = {
-    clearAllExercises: clearAllExercises,
-    addExercise: addExercise,
-    init: init
+    //clearAllExercises: clearAllExercises,
+    //addExercise: addExercise,
+    Client: Client
 };

@@ -6,9 +6,10 @@ var expect = chai.expect;
 var myStepDefinitionsWrapper = function () {
 
     var homePage;
+    var dbClient;
 
     this.World = function() {
-        db.init(
+        dbClient = new db.Client(
             {
                 cdbUrl: process.env.CDB_URL,
                 cdbUser: process.env.CDB_USER,
@@ -21,12 +22,12 @@ var myStepDefinitionsWrapper = function () {
     };
 
     this.Given(/^The following exercises exist$/, function (exerciseList) {
-        return db.clearAllExercises()
+        return dbClient.clearAllExercises()
         .then(function() {
             var exercises = exerciseList.hashes();
             var promises=[];
             exercises.forEach(function(exercise) {
-                promises.push(db.addExercise(exercise.name));
+                promises.push(dbClient.addExercise(exercise.name));
             });
 
             return q.all(promises);

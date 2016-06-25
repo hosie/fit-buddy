@@ -1,12 +1,13 @@
 var nock = require('nock');
 describe("persistence/db",function() {
-    var db = require("../../persistence/db.js");
+    var DbClient = require("../../persistence/db.js").Client;
     var spoofCloudantUrl = "https://spoofcloundant.com:443";
     var testCdbUser = "testUser";
     var testCdbPass = "testPass";
+    var db;
 
     beforeEach(function() {
-        db.init(
+        db = new DbClient(
             {
                 cdbUrl:  spoofCloudantUrl,
                 cdbUser: testCdbUser,
@@ -88,4 +89,6 @@ describe("persistence/db",function() {
                 .catch(done);
         });
     });
+
+
 });
