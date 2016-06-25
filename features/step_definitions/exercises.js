@@ -104,7 +104,7 @@ var myStepDefinitionsWrapper = function () {
 
     });
 
-    this.Then(/^Current target for (.*) is (.*)$/, function (exerciseName,expectedTarget) {
+    this.Then(/^Current target for (.*) is (.*)$/, function (exerciseName, expectedTarget) {
         return element.all(by.repeater("exercise in exercises"))
         .filter(function (elem) {
             return elem.element(by.css('.exerciseTitle'))
