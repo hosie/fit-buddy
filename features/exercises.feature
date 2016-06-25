@@ -24,6 +24,6 @@ Feature: Exercise Tracking
         And I click on finish button Smashed it
         When I enter a new target of 3*8@60kg
         Then Current target for bench press is 3*8@60kg
-        #And  Current target for bench press is 3*8@60kg after page reload
+        And  After page reload, current target for bench press is 3*8@60kg
 
 

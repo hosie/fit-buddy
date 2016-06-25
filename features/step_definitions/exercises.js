@@ -124,5 +124,25 @@ var myStepDefinitionsWrapper = function () {
         });
     });
 
+    this.Then(/^After page reload, current target for bench press is (.*)$/, function (expectedTarget) {
+        return browser.get("http://localhost:3000")
+        .then(function() {
+            return element.all(by.repeater("exercise in exercises"))
+            .filter(function (elem) {
+                return elem.element(by.css('.exerciseTitle'))
+                .getText()
+                .then(function (text) {
+                    return text === currentExerciseName;
+                });
+            })
+            .first()
+            .element(by.css(".current-target-display"))
+            .getText()
+        })
+        .then(function (updatedText) {
+            expect(updatedText).to.equal(expectedTarget);
+        });
+    });
+
 };
 module.exports = myStepDefinitionsWrapper;
