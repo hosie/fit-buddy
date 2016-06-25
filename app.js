@@ -15,6 +15,12 @@ furnished to do so, subject to the following conditions:
       John Hosie - initial implementation
 */
 
+/*
+ This contains all of the code and loads dependencies required to set up our application.
+ It does everything except run the app.  This separates the concerns of initialising the app and binding it to an http port.
+
+ */
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
