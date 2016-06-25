@@ -1,13 +1,11 @@
 var q = require('Q');
 var db = require('../../persistence/db.js');
 var chai = require('chai');
-var chaiAsPromised = require('chai-as-promised');
 var expect = chai.expect;
 
 var myStepDefinitionsWrapper = function () {
 
     var homePage;
-    var currentExerciseName;
 
     this.World = function() {
         db.init(
@@ -66,7 +64,6 @@ var myStepDefinitionsWrapper = function () {
 
     this.Given(/^I click on exercise (.*)$/, function (exerciseName) {
 
-        currentExerciseName=exerciseName;
         return element.all(by.repeater("exercise in exercises"))
         .all(by.css('.exerciseTitle'))
         .filter(function(elem) {
@@ -85,13 +82,13 @@ var myStepDefinitionsWrapper = function () {
         .click();
     });
 
-    this.When(/^I enter a new target of (.*)$/, function (target) {
+    this.When(/^I update target of (.*) to (.*)$/, function (exerciseName, target) {
         var form =  element.all(by.repeater("exercise in exercises"))
         .filter(function(elem) {
             return elem.element(by.css('.exerciseTitle'))
             .getText()
             .then(function(text) {
-                return text === currentExerciseName;
+                return text === exerciseName;
             });
         })
         .first()
@@ -107,40 +104,20 @@ var myStepDefinitionsWrapper = function () {
 
     });
 
-    this.Then(/^Current target for bench press is (.*)$/, function (expectedTarget) {
+    this.Then(/^Current target for (.*) is (.*)$/, function (exerciseName,expectedTarget) {
         return element.all(by.repeater("exercise in exercises"))
         .filter(function (elem) {
             return elem.element(by.css('.exerciseTitle'))
             .getText()
             .then(function (text) {
-                return text === currentExerciseName;
+                return text === exerciseName;
             });
         })
         .first()
         .element(by.css(".current-target-display"))
         .getText()
-        .then(function (updatedText) {
-            expect(updatedText).to.equal(expectedTarget);
-        });
-    });
-
-    this.Then(/^After page reload, current target for bench press is (.*)$/, function (expectedTarget) {
-        return browser.get("http://localhost:3000")
-        .then(function() {
-            return element.all(by.repeater("exercise in exercises"))
-            .filter(function (elem) {
-                return elem.element(by.css('.exerciseTitle'))
-                .getText()
-                .then(function (text) {
-                    return text === currentExerciseName;
-                });
-            })
-            .first()
-            .element(by.css(".current-target-display"))
-            .getText()
-        })
-        .then(function (updatedText) {
-            expect(updatedText).to.equal(expectedTarget);
+        .then(function (actualTarget) {
+            expect(actualTarget).to.equal(expectedTarget);
         });
     });
 

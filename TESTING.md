@@ -22,5 +22,5 @@ Set the following environment variables
 Then run the tests
 
 ``` 
-node_modules\.bin\protractor protractor-conf.js
+npm run e2e
 ```

@@ -22,8 +22,19 @@ Feature: Exercise Tracking
         And I navigate to exercises page
         And I click on exercise bench press
         And I click on finish button Smashed it
-        When I enter a new target of 3*8@60kg
+        When I update target of bench press to 3*8@60kg
         Then Current target for bench press is 3*8@60kg
-        And  After page reload, current target for bench press is 3*8@60kg
+
+    Scenario: Read updated target
+        Given The following exercises exist
+            | name              |
+            | bench press       |
+        And I navigate to exercises page
+        And I click on exercise bench press
+        And I click on finish button Smashed it
+        And I update target of bench press to 3*8@60kg
+        When I navigate to exercises page
+        Then Current target for bench press is 3*8@60kg
+
 
 

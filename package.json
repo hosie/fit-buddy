@@ -6,7 +6,7 @@
     "start": "node ./bin/www",
     "style": "jscs --verbose .",
     "lint": "jshint . ",
-    "e2e": "cucumber-js",
+    "e2e": "protractor protractor-conf.js",
     "prelint": "npm run style",
     "pretest": "npm run lint",
     "test": "mocha \"test/**/*-test.js\""
