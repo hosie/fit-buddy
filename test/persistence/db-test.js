@@ -9,6 +9,7 @@ describe("persistence/db",function() {
     beforeEach(function() {
         db = new DbClient(
             {
+                name:    "testdatabase",
                 cdbUrl:  spoofCloudantUrl,
                 cdbUser: testCdbUser,
                 cdbPass: testCdbPass
@@ -16,12 +17,12 @@ describe("persistence/db",function() {
         );
     });
 
-    describe("clearAllExercises",function() {
+    describe("splat",function() {
         it("drops and recreates the database",function(done) {
 
             var cloudantDeleteDatabase =
                 nock(spoofCloudantUrl)
-                    .delete("/exercises")
+                    .delete("/testdatabase")
                     .basicAuth({
                         user: testCdbUser,
                         pass: testCdbPass
@@ -30,14 +31,14 @@ describe("persistence/db",function() {
 
             var cloudantCreateDatabase =
                 nock(spoofCloudantUrl)
-                    .put("/exercises")
+                    .put("/testdatabase")
                     .basicAuth({
                         user: testCdbUser,
                         pass: testCdbPass
                     })
                     .reply(201);
 
-            db.clearAllExercises()
+            db.splat()
                 .then(function() {
                     cloudantDeleteDatabase.done();
                     cloudantCreateDatabase.done();
@@ -57,7 +58,7 @@ describe("persistence/db",function() {
 
     });
 
-    describe("addExercise",function() {
+    describe("insert",function() {
         it("does not barf",function(done) {
             var cloudantInsert =
                 nock(
@@ -66,12 +67,11 @@ describe("persistence/db",function() {
                         reqheaders: {
                             'Content-Type': 'application/json'
                         }
-
                     }
                 )
-                .post("/exercises",
+                .post("/testdatabase",
                     {
-                        name: "test exercise"
+                        name: "test doc"
                     }
                 )
                 .basicAuth({
@@ -81,7 +81,7 @@ describe("persistence/db",function() {
 
                 .reply(200);
 
-            db.addExercise("test exercise")
+            db.insert({name: "test doc"})
                 .then(function() {
                     cloudantInsert.done();
                     done();

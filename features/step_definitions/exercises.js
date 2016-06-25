@@ -11,6 +11,7 @@ var myStepDefinitionsWrapper = function () {
     this.World = function() {
         dbClient = new db.Client(
             {
+                name: 'exercises',
                 cdbUrl: process.env.CDB_URL,
                 cdbUser: process.env.CDB_USER,
                 cdbPass: process.env.CDB_PASS
@@ -22,12 +23,12 @@ var myStepDefinitionsWrapper = function () {
     };
 
     this.Given(/^The following exercises exist$/, function (exerciseList) {
-        return dbClient.clearAllExercises()
+        return dbClient.splat()
         .then(function() {
             var exercises = exerciseList.hashes();
             var promises=[];
             exercises.forEach(function(exercise) {
-                promises.push(dbClient.addExercise(exercise.name));
+                promises.push(dbClient.insert({name: exercise.name}));
             });
 
             return q.all(promises);

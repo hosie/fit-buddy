@@ -1,24 +1,23 @@
 var q = require('Q');
-var cdbUrl;
+
 var request = require('request-promise');
 
 
 function Client(env) {
+    this.name    = env.name;
     this.cdbUrl  = env.cdbUrl;
     this.cdbUser = env.cdbUser;
     this.cdbPass = env.cdbPass;
 }
 
-Client.prototype.addExercise = function (name) {
+Client.prototype.insert = function (doc) {
 
-    var requestBody = {
-        name: name
-    };
+
 
     var options = {
-        url: this.cdbUrl+"/exercises",
+        url: this.cdbUrl + "/"  + this.name,
         json: true,
-        body: requestBody,
+        body: doc,
         auth: {
             user: this.cdbUser,
             pass: this.cdbPass,
@@ -29,9 +28,9 @@ Client.prototype.addExercise = function (name) {
     return request.post(options);
 };
 
-Client.prototype.clearAllExercises = function () {
+Client.prototype.splat= function () {
     var options = {
-        url: this.cdbUrl+"/exercises",
+        url: this.cdbUrl + "/" + this.name,
         auth: {
             user: this.cdbUser,
             pass: this.cdbPass,
