@@ -31,9 +31,7 @@ Client.prototype.list = function () {
 };
 
 
-Client.prototype.insert = function (doc) {
-
-
+Client.prototype.upsert = function (doc) {
 
     var options = {
         url: this.cdbUrl + "/"  + this.name,
@@ -48,6 +46,8 @@ Client.prototype.insert = function (doc) {
 
     return request.post(options);
 };
+
+
 
 Client.prototype.splat= function () {
     var options = {

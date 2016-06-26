@@ -9,7 +9,8 @@
     "e2e": "protractor protractor-conf.js",
     "prelint": "npm run style",
     "pretest": "npm run lint",
-    "test": "istanbul cover --report cobertura --report html ./node_modules/mocha/bin/_mocha  \"test/require-all-code.js\" \"test/**/*-test.js\""
+    "test": "istanbul cover --report cobertura --report html ./node_modules/mocha/bin/_mocha  \"test/require-all-code.js\" \"test/**/*-test.js\"",
+    "test-unit": "mocha \"test/**/*-test.js\""
   },
   "dependencies": {
     "body-parser": "~1.8.1",
@@ -36,6 +37,7 @@
     "protractor-cucumber": "^0.1.8",
     "protractor-cucumber-framework": "^0.5.0",
     "sinon": "^1.17.4",
+    "sinon-chai": "^2.8.0",
     "webdriver-manager": "^7.0.1"
   }
 }

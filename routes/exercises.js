@@ -27,15 +27,10 @@ if (typeof process.env.VCAP_SERVICES !== 'undefined') {
 
 var cloudantAccountHost = services.cloudantNoSQLDB[0].credentials.host;
 var auth = services.cloudantNoSQLDB[0].credentials.username + ":" + services.cloudantNoSQLDB[0].credentials.password;
-var dburl = "https://" + auth + "@" + cloudantAccountHost + "/exercises";
-var queryUrl = dburl + "/_all_docs?include_docs=true";
 
-console.log("url");
-console.dir(url.parse(queryUrl));
 
 router.get('/', function (req, res) {
 
-    console.log("querying database for all excecises: " + queryUrl);
     exerciseManager.list()
     .then(
         function(exercises) {
@@ -48,57 +43,27 @@ router.get('/', function (req, res) {
 
 router.post('/', function (req, res) {
     try {
+
         console.log("POST:");
         console.log(req.body);
         var exercise = req.body;
-
-        console.log("parsed body");
-        console.dir(exercise);
-        //create a new exercise
-        var options = {
-            hostname: cloudantAccountHost,
-            port: 443,
-            method: 'POST',
-            auth: auth,
-            path: "/exercises",
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-
-
-        var dbResponseString = "";
-        console.log("creating request to " + options.hostname + options.path);
-        var dbReq = https.request(options, function (dbres) {
-            console.log('STATUS: ' + dbres.statusCode);
-            console.log('HEADERS: ' + JSON.stringify(dbres.headers));
-            dbres.setEncoding('utf8');
-            dbres.on('data', function (chunk) {
-                console.log('BODY: ' + chunk);
-                dbResponseString = dbResponseString + chunk;
-            });
-            dbres.on('end', function () {
-                var dbResponseObject = JSON.parse(dbResponseString);
-                res.send(dbResponseObject);
-            });
+        exerciseManager.upsert(exercise)
+        .then(function() {
+            res.status(200);
+            res.end();
+        })
+        .catch(function (error) {
+            console.log("Error " + error.message);
+            res.status(500);
+            res.json(error.message);
         });
-
-        console.log("created request");
-        dbReq.on('error', function (err) {
-            console.log('problem with request: ' + err.message);
-            //TODO
-            console.dir(err);
-            res.status(err.statusCode);
-        });
-
-        // write data to request body
-        var dbReqString = JSON.stringify(exercise);
-        console.log("writing: " + dbReqString);
-        dbReq.write(dbReqString);
-        dbReq.end();
     } catch (err) {
         console.log("Caught error");
         console.dir(err);
+        console.log(err.stack);
+        res.status(500);
+        res.json(err.message);
+        res.end();
 
     }
 });

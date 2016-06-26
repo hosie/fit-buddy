@@ -66,7 +66,7 @@ describe("persistence/db",function() {
 
     });
 
-    describe("insert",function() {
+    describe("upsert",function() {
         it("Calls post on cloudant API",function(done) {
             var cloudantInsert =
                 nock(
@@ -89,7 +89,7 @@ describe("persistence/db",function() {
 
                 .reply(200);
 
-            db.insert({name: "test doc"})
+            db.upsert({name: "test doc"})
                 .then(function() {
                     cloudantInsert.done();
                     done();

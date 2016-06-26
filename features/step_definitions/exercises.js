@@ -21,7 +21,7 @@ var myStepDefinitionsWrapper = function () {
             var exercises = exerciseList.hashes();
             var promises=[];
             exercises.forEach(function(exercise) {
-                promises.push(dbClient.insert({name: exercise.name}));
+                promises.push(dbClient.upsert({name: exercise.name}));
             });
 
             return q.all(promises);
