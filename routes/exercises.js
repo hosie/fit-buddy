@@ -18,7 +18,7 @@ var express = require('express');
 var router = express.Router();
 var https = require('https');
 var url = require('url');
-var db = require('../persistence/db.js');
+var exerciseManager = require('../exercises/exercises.js');
 var services = {};
 
 if (typeof process.env.VCAP_SERVICES !== 'undefined') {
@@ -32,13 +32,11 @@ var queryUrl = dburl + "/_all_docs?include_docs=true";
 
 console.log("url");
 console.dir(url.parse(queryUrl));
-/* GET home page. */
-var client = new db.Client('exercises');
 
 router.get('/', function (req, res) {
 
     console.log("querying database for all excecises: " + queryUrl);
-    client.list()
+    exerciseManager.list()
     .then(
         function(exercises) {
             console.log("got exercises");
