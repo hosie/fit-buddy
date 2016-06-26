@@ -9,8 +9,9 @@
     "e2e": "protractor protractor-conf.js",
     "prelint": "npm run style",
     "pretest": "npm run lint",
-    "test": "istanbul cover --report cobertura --report html ./node_modules/mocha/bin/_mocha  \"test/require-all-code.js\" \"test/**/*-test.js\"",
-    "test-unit": "mocha \"test/**/*-test.js\""
+    "test": "istanbul cover --report cobertura --report html ./node_modules/mocha/bin/_mocha  \"test/server/require-all-code.js\" \"test/server/**/*-test.js\"",
+    "test-server": "mocha \"test/server/**/*-test.js\"",
+    "test-client": "karma start karma.conf.js --single-run"
   },
   "dependencies": {
     "body-parser": "~1.8.1",
@@ -31,6 +32,10 @@
     "istanbul": "^0.4.4",
     "jscs": "2.11.0",
     "jshint": "2.9.1",
+    "karma": "^1.0.0",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-mocha": "^1.0.1",
     "mocha": "^2.1.0",
     "nock": "^8.0.0",
     "protractor": "^2.1.0",

@@ -5,7 +5,7 @@ var conf = require('nconf');
 var sinon = require('sinon');
 
 describe("persistence/db",function() {
-    var DbClient = require("../../persistence/db.js").Client;
+    var DbClient = require("../../../persistence/db.js").Client;
     var spoofCloudantUrl = "https://spoofcloundant.com:443";
     var testCdbUser = "testUser";
     var testCdbPass = "testPass";

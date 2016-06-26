@@ -4,8 +4,8 @@ var expect=chai.expect;
 var sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 
-var exercises = require('../../exercises/exercises.js');
-var db = require('../../persistence/db.js');
+var exercises = require('../../../exercises/exercises.js');
+var db = require('../../../persistence/db.js');
 var q = require('q');
 describe('exercise', function() {
 

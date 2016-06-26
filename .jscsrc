@@ -6,7 +6,8 @@
 {
     // exclude node_modules and the javascript in Istanbul's code-coverage report
     "excludeFiles": [
-        "**/coverage/**",
+        "bower_components/**",
+        "coverage/**",
         "**/node_modules/**",
         "**/doc/**",
         "**/prereqs/**",

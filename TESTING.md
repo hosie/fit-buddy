@@ -1,7 +1,19 @@
-### To run unit tests
-
+### To run style, lint and server unit tests
 ```
 npm test
+```
+
+
+### To run unit tests
+
+*Server unit tests*
+```
+npm run test-server
+```
+
+*Client side unit tests*
+```
+npm run test-client
 ```
 
 ###  To run end to end tests
