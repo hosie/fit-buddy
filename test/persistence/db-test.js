@@ -1,4 +1,7 @@
 var nock = require('nock');
+var chai = require('chai');
+var expect = chai.expect;
+
 describe("persistence/db",function() {
     var DbClient = require("../../persistence/db.js").Client;
     var spoofCloudantUrl = "https://spoofcloundant.com:443";
@@ -59,7 +62,7 @@ describe("persistence/db",function() {
     });
 
     describe("insert",function() {
-        it("does not barf",function(done) {
+        it("Calls post on cloudant API",function(done) {
             var cloudantInsert =
                 nock(
                     spoofCloudantUrl,
@@ -90,5 +93,70 @@ describe("persistence/db",function() {
         });
     });
 
-
+    describe('list', function() {
+        it('reads all', function(done) {
+            var cloudantList =
+                nock(
+                    spoofCloudantUrl
+                )
+                .get("/testdatabase/_all_docs?include_docs=true")
+                .basicAuth({
+                    user: testCdbUser,
+                    pass: testCdbPass
+                })
+                .reply(200,{
+                    total_rows: 1,
+                    offset: 0,
+                    rows:
+                        [
+                            {
+                                id: 'testrow1_id',
+                                key: 'testrow1_key',
+                                value: 'testdoc1_value',
+                                doc: {
+                                    _id: 'testdoc1_id',
+                                    _rev: 'testdoc1_value',
+                                    field1: 'testdoc1_field1',
+                                    field2: 'testdoc1_field2'
+                                }
+                            },
+                            {
+                                id: 'testrow2_id',
+                                key: 'testrow2_key',
+                                value: 'testdoc2_value',
+                                doc: {
+                                    _id: 'testdoc2_id',
+                                    _rev: 'testdoc2_value',
+                                    field1: 'testdoc2_field1',
+                                    field2: 'testdoc2_field2'
+                                }
+                            }
+                        ]
+                });
+            db.list()
+            .then(function(docs) {
+                cloudantList.done();
+                expect(docs).to.be.an('array');
+                expect(docs.length).to.equal(2);
+                expect(docs).to.deep.equal(
+                    [
+                        {
+                            _id: 'testdoc1_id',
+                            _rev: 'testdoc1_value',
+                            field1: 'testdoc1_field1',
+                            field2: 'testdoc1_field2'
+                        },
+                        {
+                            _id: 'testdoc2_id',
+                            _rev: 'testdoc2_value',
+                            field1: 'testdoc2_field1',
+                            field2: 'testdoc2_field2'
+                        }
+                    ]
+                );
+                done();
+            })
+            .catch(done);
+        });
+    });
 });

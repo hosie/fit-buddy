@@ -10,6 +10,27 @@ function Client(env) {
     this.cdbPass = env.cdbPass;
 }
 
+Client.prototype.list = function () {
+
+    var options = {
+        url: this.cdbUrl + "/"  + this.name + "/_all_docs?include_docs=true",
+        json: true,
+        auth: {
+            user: this.cdbUser,
+            pass: this.cdbPass,
+            sendImmediately: true
+        }
+    };
+
+    return request.get(options)
+        .then(function (response) {
+            return response.rows.map(function(row) {
+                return row.doc;
+            });
+        });
+};
+
+
 Client.prototype.insert = function (doc) {
 
 
