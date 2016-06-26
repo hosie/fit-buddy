@@ -9,14 +9,7 @@ var myStepDefinitionsWrapper = function () {
     var dbClient;
 
     this.World = function() {
-        dbClient = new db.Client(
-            {
-                name: 'exercises',
-                cdbUrl: process.env.CDB_URL,
-                cdbUser: process.env.CDB_USER,
-                cdbPass: process.env.CDB_PASS
-            }
-        );
+        dbClient = new db.Client('exercises');
 
         homePage=process.env.APP_ROUTE;
 

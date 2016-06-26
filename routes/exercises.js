@@ -18,7 +18,7 @@ var express = require('express');
 var router = express.Router();
 var https = require('https');
 var url = require('url');
-
+var db = require('../persistence/db.js');
 var services = {};
 
 if (typeof process.env.VCAP_SERVICES !== 'undefined') {
@@ -33,42 +33,19 @@ var queryUrl = dburl + "/_all_docs?include_docs=true";
 console.log("url");
 console.dir(url.parse(queryUrl));
 /* GET home page. */
+var client = new db.Client('exercises');
+
 router.get('/', function (req, res) {
 
     console.log("querying database for all excecises: " + queryUrl);
-    //res.send(exercises);
-    https.get(queryUrl, function (dbres) {
-        var data = "";
-        console.log("got response ");
-        dbres.on('data', function (chunk) {
-
-            console.log("got chunk " + chunk);
-            data = data + chunk;
-        });
-        dbres.on('end', function () {
-            console.log("end");
-            var exercises = JSON.parse(data).rows;
-            var result = [];
-            var numberOfExercises = exercises.length;
-            exercises.forEach(function (exercise, index) {
-                console.log("next exercise");
-                result.push(exercise.doc);
-                if (result.length == exercises.length) {
-
-                    console.log("last exercise");
-                    res.send(result);
-                }
-            });
-
-        });
-
-
-    }).on('error', function (err) {
-        console.log("got Error");
-        console.dir(err);
-        res.status(err.statusCode);
-
-    });
+    client.list()
+    .then(
+        function(exercises) {
+            console.log("got exercises");
+            console.log(JSON.stringify(exercises,null,2));
+            res.json(exercises);
+        }
+    );
 });
 
 router.post('/', function (req, res) {

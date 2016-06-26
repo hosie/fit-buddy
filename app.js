@@ -21,6 +21,11 @@ furnished to do so, subject to the following conditions:
 
  */
 
+var conf = require('nconf');
+//use environment variables only
+conf.env();
+
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');

@@ -1,13 +1,13 @@
-var q = require('Q');
-
+var q       = require('q');
+var conf    = require('nconf');
 var request = require('request-promise');
 
 
-function Client(env) {
-    this.name    = env.name;
-    this.cdbUrl  = env.cdbUrl;
-    this.cdbUser = env.cdbUser;
-    this.cdbPass = env.cdbPass;
+function Client(name) {
+    this.name    = name;
+    this.cdbUrl  = conf.get('CDB_URL');
+    this.cdbUser = conf.get('CDB_USER');
+    this.cdbPass = conf.get('CDB_PASS');
 }
 
 Client.prototype.list = function () {

@@ -1,6 +1,8 @@
 var nock = require('nock');
 var chai = require('chai');
 var expect = chai.expect;
+var conf = require('nconf');
+var sinon = require('sinon');
 
 describe("persistence/db",function() {
     var DbClient = require("../../persistence/db.js").Client;
@@ -8,16 +10,19 @@ describe("persistence/db",function() {
     var testCdbUser = "testUser";
     var testCdbPass = "testPass";
     var db;
+    var confGet_stub;
 
     beforeEach(function() {
-        db = new DbClient(
-            {
-                name:    "testdatabase",
-                cdbUrl:  spoofCloudantUrl,
-                cdbUser: testCdbUser,
-                cdbPass: testCdbPass
-            }
-        );
+        confGet_stub = sinon.stub(conf,'get');
+        confGet_stub.withArgs('CDB_URL').returns(spoofCloudantUrl);
+        confGet_stub.withArgs('CDB_USER').returns(testCdbUser);
+        confGet_stub.withArgs('CDB_PASS').returns(testCdbPass);
+
+        db = new DbClient("testdatabase");
+    });
+
+    afterEach(function() {
+        confGet_stub.restore();
     });
 
     describe("splat",function() {
