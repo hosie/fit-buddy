@@ -45,7 +45,9 @@ gulp.task('pre-server-test', function () {
 
 function serverTest() {
     return gulp.src(paths.serverTests, {read: false})
-        .pipe(gulpMocha());
+        .pipe(gulpMocha({
+            bail:true
+        }));
 }
 
 gulp.task('server-test', ['pre-server-test'], function() {
@@ -61,8 +63,6 @@ gulp.task('server-test', ['pre-server-test'], function() {
 gulp.task('server-test-nocoverage', function() {
     return serverTest();
 });
-
-
 
 gulp.task('client-test', function(done) {
     new Server({
