@@ -18,21 +18,14 @@ npm run test-client
 
 ###  To run end to end tests
 
+install the selenium standalone jar
+```
+node node_modules\gulp-protractor\node_modules\protractor\bin\webdriver-manager update
+```
 
 Set VCAP_SERVICES with cloudant binding and then start the server
 
-Start selenium 
+Run the tests 
 ```
-node_modules\.bin\webdriver-manager start
-```
-
-Set the following environment variables
- - CDB_URL
- - CDB_USER
- - CDB_PASS
-
-Then run the tests
-
-``` 
-npm run e2e
+gulp e2e-test
 ```

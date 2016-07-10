@@ -47,7 +47,7 @@ describe('ExecisesController', function() {
     });
 
     describe('create', function() {
-        it('posts an object', function(){
+        it('posts an object', function() {
             $httpBackend.when('POST', 'exercises')
                 .respond();
             $scope.create('testExerciseName');
@@ -57,7 +57,7 @@ describe('ExecisesController', function() {
 
 
     describe('update', function() {
-        it('posts an object', function(){
+        it('posts an object', function() {
             $httpBackend.when('POST', 'exercises')
             .respond();
             $scope.update('testExerciseName');

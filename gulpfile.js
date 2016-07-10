@@ -6,7 +6,8 @@ var istanbul = require('gulp-istanbul');
 var paths = {
     serverCode: ['app.js','exercises/**/*.js','persistence/**/*.js'],
     serverTests: ['test/server/**/*.js'],
-    clientCode: 'client/img/**/*'
+    clientCode: 'client/img/**/*',
+    e2eTests: ['features/exercises.feature']
 };
 
 gulp.task('default', function() {
@@ -36,9 +37,25 @@ gulp.task('server-test', ['pre-server-test'], function() {
     .pipe(istanbul.enforceThresholds({ thresholds: { global: 0 } }));
 });
 
-gulp.task('client-test', ['server-test'], function(done) {
+
+
+
+gulp.task('client-test', function(done) {
     new Server({
         configFile: __dirname + '/karma.conf.js',
         singleRun: true
     }, done).start();
+});
+
+gulp.task('e2e-test', function(done) {
+    var protractor = require("gulp-protractor").protractor;
+
+    gulp.src(paths.e2eTests)
+    .pipe(protractor({
+        configFile: "./protractor-conf.js"
+    }))
+    .on('error', function(e) {
+        throw e;
+    });
+
 });
