@@ -16,8 +16,6 @@
  */
 var express = require('express');
 var router = express.Router();
-var https = require('https');
-var url = require('url');
 var exerciseManager = require('../exercises/exercises.js');
 var services = {};
 

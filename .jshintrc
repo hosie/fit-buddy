@@ -10,8 +10,26 @@
     // suppress "Expected an assignment or function call and instead saw an expression"
     // in tests only, where it can be caused by expect() assertions
     "overrides": {
-      "**/test/**/*-test.js": {
+        "**/test/**/*-test.js": {
             "expr": true
+        },
+        "**/test/client/**/*.js":{
+            "globals"       : {
+                "inject": false,
+                "chai": false
+            }
+        },
+        "**/public/javascripts/**/*.js":{
+            "globals"       : {
+                "angular": false
+            }
+        },
+        "**/features/**/*.js":{
+            "globals"       : {
+                "browser": false,
+                "element": false,
+                "by": false
+            }
         }
     },
 
@@ -106,5 +124,8 @@
     "yui"           : false,    // Yahoo User Interface
 
     // Custom Globals
-    "globals"       : {}        // additional predefined global variables
+    // additional predefined global variables
+    "globals"       : {
+
+    }
 }

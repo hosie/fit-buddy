@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-var mocha = require('gulp-mocha');
+var gulpMocha = require('gulp-mocha');
 var Server = require('karma').Server;
 var istanbul = require('gulp-istanbul');
 
@@ -29,6 +29,7 @@ gulp.task('lint', function() {
     return gulp.src(['*.js'].concat(paths.serverCode).concat(paths.serverTests).concat(paths.clientCode).concat(paths.e2eJs).concat(paths.clientTests))
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(jshint.reporter('fail'))
     .pipe(jshintSummary.collect())
     .on('end',jshintSummary.summarize());
 
@@ -42,9 +43,13 @@ gulp.task('pre-server-test', function () {
     .pipe(istanbul.hookRequire());
 });
 
-gulp.task('server-test', ['pre-server-test'], function() {
+function serverTest() {
     return gulp.src(paths.serverTests, {read: false})
-    .pipe(mocha())
+        .pipe(gulpMocha());
+}
+
+gulp.task('server-test', ['pre-server-test'], function() {
+    return serverTest()
     .pipe(istanbul.writeReports({
         dir: './coverage/server',
         reporters: ['cobertura','html']
@@ -53,6 +58,9 @@ gulp.task('server-test', ['pre-server-test'], function() {
     .pipe(istanbul.enforceThresholds({ thresholds: { global: 0 } }));
 });
 
+gulp.task('server-test-nocoverage', function() {
+    return serverTest();
+});
 
 
 
@@ -63,10 +71,10 @@ gulp.task('client-test', function(done) {
     }, done).start();
 });
 
-gulp.task('e2e-test', function(done) {
+gulp.task('e2e-test', function() {
     var protractor = require("gulp-protractor").protractor;
 
-    gulp.src(paths.e2eTests)
+    return gulp.src(paths.e2eTests)
     .pipe(protractor({
         configFile: "./protractor-conf.js"
     }))

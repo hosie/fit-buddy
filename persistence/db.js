@@ -1,4 +1,3 @@
-var q       = require('q');
 var conf    = require('nconf');
 var request = require('request-promise');
 
