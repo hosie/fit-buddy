@@ -4,17 +4,33 @@ var Server = require('karma').Server;
 var istanbul = require('gulp-istanbul');
 
 var paths = {
-    serverCode: ['app.js','exercises/**/*.js','persistence/**/*.js'],
+    serverCode: ['app.js','exercises/**/*.js','persistence/**/*.js', 'routes/**/*.js'],
     serverTests: ['test/server/**/*.js'],
-    clientCode: 'client/img/**/*',
-    e2eTests: ['features/exercises.feature']
+    clientCode: 'public/javascripts/**/*.js',
+    clientTests: 'test/client/**/*.js',
+    e2eTests: ['features/exercises.feature'],
+    e2eJs: ['features/**/*.js']
 };
 
 gulp.task('default', function() {
     // place code for your default task here
 });
 
-gulp.task('test', ['server-test', 'client-test'], function() {
+
+gulp.task('test', ['lint','server-test', 'client-test'], function() {
+
+});
+
+
+var jshintSummary = require('jshint-stylish-summary');
+var jshint = require('gulp-jshint');
+
+gulp.task('lint', function() {
+    return gulp.src(['*.js'].concat(paths.serverCode).concat(paths.serverTests).concat(paths.clientCode).concat(paths.e2eJs).concat(paths.clientTests))
+    .pipe(jshint('.jshintrc'))
+    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(jshintSummary.collect())
+    .on('end',jshintSummary.summarize());
 
 });
 
