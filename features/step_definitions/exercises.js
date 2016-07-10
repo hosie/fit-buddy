@@ -1,4 +1,4 @@
-var q = require('Q');
+var q = require('q');
 var db = require('../../persistence/db.js');
 var chai = require('chai');
 var expect = chai.expect;
