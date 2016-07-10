@@ -25,10 +25,6 @@ if (typeof process.env.VCAP_SERVICES !== 'undefined') {
     services = JSON.parse(process.env.VCAP_SERVICES);
 }
 
-var cloudantAccountHost = services.cloudantNoSQLDB[0].credentials.host;
-var auth = services.cloudantNoSQLDB[0].credentials.username + ":" + services.cloudantNoSQLDB[0].credentials.password;
-
-
 router.get('/', function (req, res) {
 
     exerciseManager.list()
