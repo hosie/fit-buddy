@@ -2,6 +2,9 @@ var gulp = require('gulp');
 var gulpMocha = require('gulp-mocha');
 var Server = require('karma').Server;
 var istanbul = require('gulp-istanbul');
+var jscs = require('gulp-jscs');
+var jshintSummary = require('jshint-stylish-summary');
+var jshint = require('gulp-jshint');
 
 var paths = {
     serverCode: ['app.js','exercises/**/*.js','persistence/**/*.js', 'routes/**/*.js'],
@@ -16,14 +19,16 @@ gulp.task('default', function() {
     // place code for your default task here
 });
 
-
-gulp.task('test', ['lint','server-test', 'client-test'], function() {
+gulp.task('test', ['checkstyle', 'lint', 'server-test', 'client-test'], function() {
 
 });
 
-
-var jshintSummary = require('jshint-stylish-summary');
-var jshint = require('gulp-jshint');
+gulp.task('checkstyle', function() {
+    return gulp.src(['*.js'].concat(paths.serverCode).concat(paths.serverTests).concat(paths.clientCode).concat(paths.e2eJs).concat(paths.clientTests))
+        .pipe(jscs())
+        .pipe(jscs.reporter())
+        .pipe(jscs.reporter('fail'));
+});
 
 gulp.task('lint', function() {
     return gulp.src(['*.js'].concat(paths.serverCode).concat(paths.serverTests).concat(paths.clientCode).concat(paths.e2eJs).concat(paths.clientTests))
@@ -46,7 +51,7 @@ gulp.task('pre-server-test', function () {
 function serverTest() {
     return gulp.src(paths.serverTests, {read: false})
         .pipe(gulpMocha({
-            bail:true
+            bail: true
         }));
 }
 
