@@ -21,7 +21,7 @@ describe('ExecisesController', function() {
         $httpBackend = $injector.get('$httpBackend');
 
         // backend definition common for all tests
-        $httpBackend.when('GET', 'exercises')
+        $httpBackend.when('GET', '/api/exercises')
         .respond(testExercises);
 
         // create a new $scope for each test
@@ -47,6 +47,13 @@ describe('ExecisesController', function() {
     });
 
     describe('create', function() {
+
+        beforeEach(function() {
+            // backend definition common for all tests
+            $httpBackend.when('POST', '/api/exercises')
+                .respond(202);
+        });
+
         it('posts an object', function() {
             $httpBackend.when('POST', 'exercises')
                 .respond();
@@ -57,6 +64,13 @@ describe('ExecisesController', function() {
 
 
     describe('update', function() {
+
+        beforeEach(function() {
+            // backend definition common for all tests
+            $httpBackend.when('POST', '/api/exercises')
+                .respond(202);
+        });
+
         it('posts an object', function() {
             $httpBackend.when('POST', 'exercises')
             .respond();

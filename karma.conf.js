@@ -15,6 +15,7 @@ module.exports = function(config) {
         files: [
             'bower_components/angular/angular.min.js',
             'bower_components/angular-mocks/angular-mocks.js',
+            'bower_components/angular-route/angular-route.js',
             'test/client/**/*.js',
             'public/javascripts/**/*.js'
 
@@ -68,9 +69,8 @@ module.exports = function(config) {
             subdir: '.'
         },
 
-
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
-        singleRun: false
+        singleRun: true
     });
 };

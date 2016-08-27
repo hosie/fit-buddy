@@ -15,18 +15,18 @@
  John Hosie - initial implementation
  */
 
-var fitBuddyApp = angular.module('FitBuddyApp', []);
-
-fitBuddyApp.controller('ExercisesController', function ($scope, $http) {
 
 
-    $http.get('exercises').success(function (data) {
+angular.module('FitBuddyApp.Exercises', []).controller('ExercisesController', function ($scope, $http) {
+
+
+    $http.get('/api/exercises').success(function (data) {
         $scope.exercises = data;
     });
 
     $scope.update = function (exercise) {
         console.log("posting" + exercise);
-        $http.post('exercises', exercise);
+        $http.post('/api/exercises', exercise);
     };
 
     $scope.create = function (name) {
@@ -36,12 +36,10 @@ fitBuddyApp.controller('ExercisesController', function ($scope, $http) {
         };
         var newExerciseString = JSON.stringify(newExercise);
         console.log("posting " + newExerciseString);
-        $http.post('exercises', newExerciseString).success(function (data) {
+        $http.post('/api/exercises', newExerciseString).success(function (data) {
             console.log("got POST response" + data);
             $scope.exercises.push(newExercise);
 
         });
-
-
     };
 });

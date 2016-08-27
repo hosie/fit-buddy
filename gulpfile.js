@@ -5,6 +5,7 @@ var istanbul = require('gulp-istanbul');
 var jscs = require('gulp-jscs');
 var jshintSummary = require('jshint-stylish-summary');
 var jshint = require('gulp-jshint');
+var runSequence    = require('run-sequence');
 
 var paths = {
     serverCode: ['app.js','exercises/**/*.js','persistence/**/*.js', 'routes/**/*.js'],
@@ -19,7 +20,16 @@ gulp.task('default', function() {
     // place code for your default task here
 });
 
-gulp.task('test', ['checkstyle', 'lint', 'server-test', 'client-test'], function() {
+gulp.task('test', function() {
+    runSequence(
+        'checkstyle',
+        'lint',
+        'server-test',
+        'client-test',
+        function() {
+            jshintSummary.summarize();
+        }
+    );
 
 });
 
@@ -71,8 +81,7 @@ gulp.task('server-test-nocoverage', function() {
 
 gulp.task('client-test', function(done) {
     new Server({
-        configFile: __dirname + '/karma.conf.js',
-        singleRun: true
+        configFile: __dirname + '/karma.conf.js'
     }, done).start();
 });
 

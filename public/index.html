@@ -1,6 +1,6 @@
 
 <!DOCTYPE html> 
-<html ng-app="FitBuddyApp">
+<html ng-app="FitBuddyApp" ng-controller="MainController">
 <!--
 Copyright 2015 
 Author John Hosie 
@@ -20,16 +20,20 @@ furnished to do so, subject to the following conditions:
 
 <head>
 <title>FitBuddy</title>
-  <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css"></link>
-  <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap-theme.css"></link>
-  <link rel="stylesheet" href="stylesheets/main.css"></link>
-  <script src="lib/angular/angular.min.js"></script>
-  <script src="javascripts/ExercisesController.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css"></link>
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap-theme.css"></link>
+    <link rel="stylesheet" href="stylesheets/main.css"></link>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-route/angular-route.js"></script>
+    <script src="javascripts/ExercisesController.js"></script>
+    <script src="javascripts/main.js"></script>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
 
-<body ng-controller="ExercisesController">
+<body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
@@ -43,7 +47,7 @@ furnished to do so, subject to the following conditions:
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Exercises</a></li>
+        <li class="active"><a href="exercises">Exercises</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
@@ -52,42 +56,7 @@ furnished to do so, subject to the following conditions:
 </nav>
 
 <div class="container">
-  <h1>Exercises</h1>
-  <div class="row">
-    <div class="col-md-3">          
-      <input ng-model="searchString"></input>
-    </div>
-    <div class="col-md-3">
-      <button ng-click="create(searchString)" type="button" class="btn btn-default">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
-      </button>
-    </div>
-  </div><!-- /.container -->
-  <div class="row">
-    <div class="col-md-3" ng-repeat="exercise in exercises | filter:searchString">
-      <!-- <h2 ng-click="doingIt = true">{{exercise.name}}</h2>-->
-      <a href="#recordPerformance.html">
-          <h2 class="exerciseTitle" ng-click="doingIt = true">{{exercise.name}}</h2>
-      </a>
-      <span class="current-target-display" ng-hide="doingIt" >{{exercise.currentTarget}}</span>
-      <form ng-show="doingIt" >
-        <button class="btn btn-lg btn-success smashedItButton" ng-click="doingIt = false;changingIt = true;">Smashed it</button><br>
-        <button class="btn btn-lg btn-info justMadeItButton" ng-click="doingIt = false">Just made it</button><br>
-        <button class="btn btn-lg btn-warning failedButton" ng-click="doingIt = false;changingIt = true;">Failed</button><br>
-        <br/>
-        
-      </form>
-      <div ng-view>
-      
-      </div>
-      <form class="new-target-form" ng-show="changingIt" ng-submit="changingIt=false;update(exercise);">
-        <h3>enter new target</h3>
-        <input type="text" ng-model="exercise.currentTarget" placeholder="CurrentTarget" ng-required/>
-        <br/>
-        <button class="btn" type="submit" >Save</button>
-      </form>
-    </div>
-  </div>  
+    <div ng-view></div>
 </div> <!-- /container -->
 
 </body>

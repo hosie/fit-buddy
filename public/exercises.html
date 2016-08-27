@@ -1,0 +1,37 @@
+<h1>Exercises</h1>
+<div class="row">
+    <div class="col-md-3">
+        <input ng-model="searchString"></input>
+    </div>
+    <div class="col-md-3">
+        <button ng-click="create(searchString)" type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+        </button>
+    </div>
+</div><!-- /.container -->
+<div class="row">
+    <div class="col-md-3" ng-repeat="exercise in exercises | filter:searchString">
+
+        <a>
+            <h2 class="exerciseTitle" ng-click="doingIt = true">{{exercise.name}}</h2>
+        </a>
+
+        <span class="current-target-display" ng-hide="doingIt" >{{exercise.currentTarget}}</span>
+
+        <form ng-show="doingIt" >
+            <button class="btn btn-lg btn-success smashedItButton" ng-click="doingIt = false;changingIt = true;">Smashed it</button><br>
+            <button class="btn btn-lg btn-info justMadeItButton" ng-click="doingIt = false">Just made it</button><br>
+            <button class="btn btn-lg btn-warning failedButton" ng-click="doingIt = false;changingIt = true;">Failed</button><br>
+            <br/>
+
+        </form>
+
+
+        <form class="new-target-form" ng-show="changingIt" ng-submit="changingIt=false;update(exercise);">
+            <h3>enter new target</h3>
+            <input type="text" ng-model="exercise.currentTarget" placeholder="CurrentTarget" ng-required/>
+            <br/>
+            <button class="btn" type="submit" >Save</button>
+        </form>
+    </div>
+</div>
